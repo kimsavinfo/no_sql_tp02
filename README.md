@@ -19,12 +19,9 @@ Finally, it will display jobs that will be executed and the jobs that have been 
 
 > gem install redis
 
-* MongoDB : open-source document database (mongo, mongoid and bson_ext)
-<!> Be careful, you can be confronted with incompatible versions.
-It is recommended to use :
-'mongo', '~> 1.11.1'
-'mongoid', '~> 2.8'
-'bson_ext', '~> 1.11.1'
+* MongoDB : open-source document database (mongo 1.11.1, mongoid 2.8 and bson_ext 1.11.1)
+
+<!> Be careful, you can be confronted with incompatible versions if you take the new ones
 
 * JSon : lightweight data-interchange format
 
