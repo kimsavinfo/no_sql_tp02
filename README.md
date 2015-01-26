@@ -22,9 +22,9 @@ Finally, it will display jobs that will be executed and the jobs that have been 
 * MongoDB : open-source document database (mongo, mongoid and bson_ext)
 <!> Be careful, you can be confronted with incompatible versions.
 It is recommended to use :
-+ 'mongo', '~> 1.11.1'
-+ 'mongoid', '~> 2.8'
-+ 'bson_ext', '~> 1.11.1'
+'mongo', '~> 1.11.1'
+'mongoid', '~> 2.8'
+'bson_ext', '~> 1.11.1'
 
 * JSon : lightweight data-interchange format
 
