@@ -4,11 +4,11 @@ urls = ["https://www.google.fr/?gws_rd=ssl", "http://www.epsi.fr/", "http://ecam
 
 iUrl = 0
 
+worker = Worker.new
 while true do
 
-	jobToAdd = Worker.new
-	jobToAdd.setJob("GET", urls[iUrl])
-	jobToAdd.saveJob()
+	worker.setJob("GET", urls[iUrl])
+	worker.saveJob()
 
 	iUrl = (iUrl+1).modulo(urls.length)
 

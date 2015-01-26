@@ -8,46 +8,42 @@ require './models/page.rb'
 
 class CrawlerWorker < Worker
 
-	def startListening
-		currentJob = @redis.lpop("jobsToDo")
+	def doJob
+		self.clear
+		jobToDo = @redis.lpop("jobsToDo")
 
-		if !currentJob.nil?
-			jobParsed = JSON.parse currentJob
-			job = Worker.new
-			job.setJob(jobParsed['task'], jobParsed['url'])
+		if !jobToDo.nil?
+			jobParsed = JSON.parse jobToDo
+			self.setJob(jobParsed['task'], jobParsed['url'])
 
-			puts "======================================"
-			puts "#{job.task} on #{job.url}"
-			saveWebPage(job.url)
-			@redis.rpush('jobsDone', job.toJson)
+			puts "#{self.task} on #{self.url}"
+			saveWebPage(worker.url)
+			@redis.rpush('jobsDone', self.toJson)
 
-			#self.showJobsToDo
-			#self.showJobsDone
+			self.showJobsToDo
+			self.showJobsDone
 		end
 	end
 
 	def saveWebPage(url)
-		connection = Mongo::Connection.new
-		Mongoid.database = connection["web"]
-
 		webPage = Mechanize.new.get(url)
-		page = Page.new
-		page.title = webPage.title
-		page.url = url
-
 		keywords = webPage.at('meta[@name="keywords"]')
-		if(!keywords.nil?)
-			page.keywords = keywords[:content].split(",")
-		end
-		
 		descrition = webPage.at('meta[name="description"]')
+
+		pageDB = Page.new
+		pageDB.title = webPage.title
+		pageDB.url = url
+		if(!keywords.nil?)
+			pageDB.keywords = keywords[:content].split(",")
+		end
 		if(!descrition.nil?)
-			page.description = descrition[:content]
+			pageDB.description = descrition[:content]
 		end
 
-		page.save
+		pageDB.save
 
-		puts "Saved : #{webPage.title}"
+		puts "======================================"
+		puts "Saved : #{pageDB.title} with url #{pageDB.url}"
 		puts "======================================"
 	end
 
