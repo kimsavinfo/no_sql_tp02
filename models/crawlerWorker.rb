@@ -17,7 +17,7 @@ class CrawlerWorker < Worker
 			self.setJob(jobParsed['task'], jobParsed['url'])
 
 			puts "#{self.task} on #{self.url}"
-			saveWebPage(worker.url)
+			saveWebPage(self.url)
 			@redis.rpush('jobsDone', self.toJson)
 
 			self.showJobsToDo
@@ -43,7 +43,7 @@ class CrawlerWorker < Worker
 		pageDB.save
 
 		puts "======================================"
-		puts "Saved : #{pageDB.title} with url #{pageDB.url}"
+		puts "Saved in the MongoDB : #{pageDB.title} with url #{pageDB.url}"
 		puts "======================================"
 	end
 
